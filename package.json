@@ -1,0 +1,10 @@
+{
+  "name": "rekognition",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Assisneto Damasceno",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.698.0"
+  }
+}
