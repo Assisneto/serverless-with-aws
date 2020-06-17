@@ -1,6 +1,6 @@
 'use strict';
 
-const {promises:{readFile}} = require('fs');
+const { get } = require('axios');
 class Handler {
 
   constructor({rekoSvc, translatorSvc}){
@@ -58,10 +58,23 @@ class Handler {
 
   }
 
+  async getImageBuffer(imageUrl){
+    const response = await get(imageUrl,{
+      responseType: 'arraybuffer'
+    });
+
+    const buffer = Buffer.from(response.data,'base64');
+    return buffer;
+  }
+
   async main(event){
     try {
-      
-      const imgBuffer = await readFile('./imagens/cat.jpg');
+      const { imageUrl } = event.queryStringParameters
+      // const imgBuffer = await readFile('./imagens/cat.jpg');
+      console.log('downloading image...');
+
+     const imgBuffer = await this.getImageBuffer(imageUrl)
+
       console.log('Detecting labels...');
       const { names, workingItems } = await this.detectImageLabels(imgBuffer);
       console.log('Translater to portuguese...');
